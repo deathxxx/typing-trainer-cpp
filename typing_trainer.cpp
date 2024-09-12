@@ -17,10 +17,10 @@ int getRandomStartingIndex(const std::vector<std::string>& lines, int linesToTes
     return rand() % (lines.size() - linesToTest + 1);
 }
 
-void typingTest(const std::vector<std::string>& lines) {
+void typingTest(const std::vector<std::string>& lines, int linesToTest) {
     std::string input;
     int correctCount = 0;
-    int linesToTest = 5; // Number of lines to test
+    std::vector<std::string> typedLines;
 
     int startingIndex = getRandomStartingIndex(lines, linesToTest);
 
@@ -29,6 +29,7 @@ void typingTest(const std::vector<std::string>& lines) {
         std::cout << "Type the following line:" << std::endl;
         std::cout << line << std::endl;
         std::getline(std::cin, input);
+        typedLines.push_back(input);  // Store the typed input
 
         if (input == line) {
             std::cout << "Correct!" << std::endl;
@@ -39,6 +40,12 @@ void typingTest(const std::vector<std::string>& lines) {
     }
 
     std::cout << "\nYou typed " << correctCount << " out of " << linesToTest << " lines correctly." << std::endl;
+
+    // Show the typed lines
+    std::cout << "\nHere are the lines you typed:" << std::endl;
+    for (const std::string& typedLine : typedLines) {
+        std::cout << typedLine << std::endl;
+    }
 }
 
 int main() {
@@ -54,7 +61,12 @@ int main() {
         return 1;
     }
 
-    typingTest(lines);
+    int linesToTest;
+    std::cout << "How many lines would you like to type? ";
+    std::cin >> linesToTest;
+    std::cin.ignore();  // Ignore remaining newline in input buffer
+
+    typingTest(lines, linesToTest);
 
     return 0;
 }
