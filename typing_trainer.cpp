@@ -5,53 +5,67 @@
 #include <ctime>
 #include <cstdlib>
 
-void loadDictionary(const std::string& filename, std::vector<std::string>& words) {
+void loadDictionary(const std::string& filename, std::vector<std::string>& lines) {
     std::ifstream file(filename);
-    std::string word;
-    while (file >> word) {
-        words.push_back(word);
+    std::string line;
+    while (std::getline(file, line)) {
+        lines.push_back(line);
     }
 }
 
-std::string getRandomWord(const std::vector<std::string>& words) {
-    return words[rand() % words.size()];
+std::string getRandomLine(const std::vector<std::string>& lines) {
+    return lines[rand() % lines.size()];
 }
 
-void typingTest(const std::vector<std::string>& words) {
+void typingTest(const std::vector<std::string>& lines) {
     std::string input;
     int correctCount = 0;
-    int totalWords = 10; // Number of words to test
+    int totalLines = 5; // Number of lines to test
 
-    for (int i = 0; i < totalWords; ++i) {
-        std::string word = getRandomWord(words);
-        std::cout << "Type the word: " << word << std::endl;
-        std::cin >> input;
+    std::string randomLine = getRandomLine(lines);
 
-        if (input == word) {
+    std::cout << "Type the following line:" << std::endl;
+    std::cout << randomLine << std::endl;
+    std::getline(std::cin, input);
+
+    if (input == randomLine) {
+        std::cout << "Correct!" << std::endl;
+        ++correctCount;
+    } else {
+        std::cout << "Incorrect. The correct line was: " << randomLine << std::endl;
+    }
+
+    for (int i = 0; i < totalLines; ++i) {
+        std::string line = getRandomLine(lines);
+        std::cout << "\nType the following line:" << std::endl;
+        std::cout << line << std::endl;
+        std::getline(std::cin, input);
+
+        if (input == line) {
             std::cout << "Correct!" << std::endl;
             ++correctCount;
         } else {
-            std::cout << "Incorrect. The correct word was: " << word << std::endl;
+            std::cout << "Incorrect. The correct line was: " << line << std::endl;
         }
     }
 
-    std::cout << "You typed " << correctCount << " out of " << totalWords << " words correctly." << std::endl;
+    std::cout << "\nYou typed " << correctCount << " out of " << totalLines + 1 << " lines correctly." << std::endl;
 }
 
 int main() {
     srand(static_cast<unsigned int>(time(0)));
 
-    std::vector<std::string> words;
+    std::vector<std::string> lines;
     std::string filename = "dictionary.txt";
 
-    loadDictionary(filename, words);
+    loadDictionary(filename, lines);
 
-    if (words.empty()) {
+    if (lines.empty()) {
         std::cerr << "Error: Could not load dictionary or it is empty." << std::endl;
         return 1;
     }
 
-    typingTest(words);
+    typingTest(lines);
 
     return 0;
 }
