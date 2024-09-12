@@ -13,31 +13,20 @@ void loadDictionary(const std::string& filename, std::vector<std::string>& lines
     }
 }
 
-std::string getRandomLine(const std::vector<std::string>& lines) {
-    return lines[rand() % lines.size()];
+int getRandomStartingIndex(const std::vector<std::string>& lines, int linesToTest) {
+    return rand() % (lines.size() - linesToTest + 1);
 }
 
 void typingTest(const std::vector<std::string>& lines) {
     std::string input;
     int correctCount = 0;
-    int totalLines = 5; // Number of lines to test
+    int linesToTest = 5; // Number of lines to test
 
-    std::string randomLine = getRandomLine(lines);
+    int startingIndex = getRandomStartingIndex(lines, linesToTest);
 
-    std::cout << "Type the following line:" << std::endl;
-    std::cout << randomLine << std::endl;
-    std::getline(std::cin, input);
-
-    if (input == randomLine) {
-        std::cout << "Correct!" << std::endl;
-        ++correctCount;
-    } else {
-        std::cout << "Incorrect. The correct line was: " << randomLine << std::endl;
-    }
-
-    for (int i = 0; i < totalLines; ++i) {
-        std::string line = getRandomLine(lines);
-        std::cout << "\nType the following line:" << std::endl;
+    for (int i = 0; i < linesToTest; ++i) {
+        std::string line = lines[startingIndex + i];
+        std::cout << "Type the following line:" << std::endl;
         std::cout << line << std::endl;
         std::getline(std::cin, input);
 
@@ -49,7 +38,7 @@ void typingTest(const std::vector<std::string>& lines) {
         }
     }
 
-    std::cout << "\nYou typed " << correctCount << " out of " << totalLines + 1 << " lines correctly." << std::endl;
+    std::cout << "\nYou typed " << correctCount << " out of " << linesToTest << " lines correctly." << std::endl;
 }
 
 int main() {
