@@ -6,6 +6,11 @@
 #include <cstdlib>
 #include <chrono>
 
+// ANSI color codes for eye-friendly colors
+const std::string LIGHT_GREEN = "\033[1;32m";
+const std::string CYAN = "\033[1;36m";
+const std::string RESET = "\033[0m";
+
 void loadDictionary(const std::string& filename, std::vector<std::string>& lines) {
     std::ifstream file(filename);
     std::string line;
@@ -69,11 +74,11 @@ void typingTest(const std::vector<std::string>& lines, int linesToTest) {
     double symbolsPerMinute = totalCharacters / typingTimeMinutes;
     double wordsPerMinute = totalWords / typingTimeMinutes;
 
-    // Show results
-    std::cout << "\n--- Typing Test Results ---" << std::endl;
-    std::cout << "Total time: " << typingTimeSeconds << " seconds" << std::endl;
-    std::cout << "Symbols per minute: " << symbolsPerMinute << std::endl;
-    std::cout << "Words per minute: " << wordsPerMinute << std::endl;
+    // Highlight results with friendly eye colors
+    std::cout << LIGHT_GREEN << "\n--- Typing Test Results ---" << RESET << std::endl;
+    std::cout << CYAN << "Total time: " << typingTimeSeconds << " seconds" << RESET << std::endl;
+    std::cout << CYAN << "Symbols per minute: " << symbolsPerMinute << RESET << std::endl;
+    std::cout << CYAN << "Words per minute: " << wordsPerMinute << RESET << std::endl;
 }
 
 int main() {
